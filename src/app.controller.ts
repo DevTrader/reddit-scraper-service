@@ -12,8 +12,9 @@ export class AppController {
     return this.appService.getHello();
   }
   @Post('subredditScraper')
-  getPosts(@Body() params: RedditScraperDTO): string {
+  async getPosts(@Body() params: RedditScraperDTO): Promise<string> {
     const scraperService = new RedditScraperService(params);
-    return scraperService.subredditUrl;
+    await scraperService.scrape();
+    return 'scraperService';
   }
 }

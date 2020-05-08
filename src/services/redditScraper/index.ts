@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import * as puppeteer from 'puppeteer';
 
 export interface ServiceOptions {
   subredditUrl: string;
@@ -29,7 +29,7 @@ export class RedditScraperService {
   public watch() {}
 
   public async scrape() {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
     await page.goto(this.subredditUrl);

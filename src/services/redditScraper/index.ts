@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 
-interface ServiceOptions {
+export interface ServiceOptions {
   subredditUrl: string;
   scrapeMode: 'watch' | 'collect';
   mediaType: 'videos' | 'images';
@@ -28,12 +28,18 @@ export class RedditScraperService {
 
   public watch() {}
 
-  public scrape() {
-    // Visit page
-    if(this.scrapeMode === 'collect'){
+  public async scrape() {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
 
-    }else if(this.scrapeMode === 'watch')else{
-        // Throw exception: `scrapeMode Not Recognized: ${this.scrapeMode}`
+    await page.goto(this.subredditUrl);
+    // Visit page
+    if (this.scrapeMode === 'collect') {
+      this.collect();
+    } else if (this.scrapeMode === 'watch') {
+      this.watch();
+    } else {
+      // Throw exception: `scrapeMode Not Recognized: ${this.scrapeMode}`
     }
     // decide to call watch() or collect()
     //

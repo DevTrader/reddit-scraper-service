@@ -24,18 +24,24 @@ export class RedditScraperService {
     this.videoDuration = videoDuration;
   }
 
-  public collect() {}
+  private getMediaType(postUrl: string): 'video' | 'image' {
+    // if the media is a video or image
+    return 'video';
+  }
 
-  public watch() {}
+  public async collect(page) {
+    await page.goto(this.subredditUrl + '/top/?t=all');
+  }
+
+  public async watch() {}
 
   public async scrape() {
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
-    await page.goto(this.subredditUrl);
     // Visit page
     if (this.scrapeMode === 'collect') {
-      this.collect();
+      await this.collect(page);
     } else if (this.scrapeMode === 'watch') {
       this.watch();
     } else {
